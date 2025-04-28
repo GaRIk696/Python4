@@ -22,8 +22,9 @@ def calculate(length, width):
         return area
     except ValueError as e:
         return f"Ошибка: {e}"
+
 length_input = input("Введите длину прямоугольника: ")
 width_input = input("Введите ширину прямоугольника: ")
 
 result = calculate(length_input, width_input)
-print(f"Площадь прямоугольника: {int(result) if result % 2 == 0 else result }")
+print(f"Площадь прямоугольника: {int(result) if isinstance(result, float) and result.is_integer() else result}")

@@ -1,44 +1,15 @@
-class Files:
-    def __init__(self, text, filename):
-        self.filename = filename
-        self.text = text + '\n'
+def append_to_file(text, filename):
+    with open(filename, 'a', encoding='utf-8') as f:
+        f.write(text + '\n')
 
-    def __enter__(self):
-        with open(self.filename, 'a', encoding='utf-8') as file:
-            file.write(self.text)
-        return self
+    with open(filename, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        print("Чётные строки файла:")
+        for idx, line in enumerate(lines, start=1):
+            if idx % 2 == 0:
+                print(line.strip())
 
-    def print_lines(self):
-        with open(self.filename, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
-            print("Чётные строки файла:")
-            for idx, line in enumerate(lines, 1):
-                if idx % 2 == 0:
-                    print(f"{idx}: {line.strip()}")
+with open('example.txt', 'w', encoding='utf-8') as f1:
+    f1.write("Первая строка\nВторая строка\nТретья строка\nЧетвертая строка\n")
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.print_lines()
-        return False
-
-
-initial_lines = [
-    "Первая строка",
-    "Вторая строка",
-    "Третья строка",
-    "Четвёртая строка",
-    "Пятая строка"
-]
-
-new_filename = "example.txt"
-
-
-with open(new_filename, 'w', encoding='utf-8') as file:
-    file.write('\n'.join(initial_lines))
-
-while True:
-    user_text = input("Введите текст для добавления в файл (или 'exit' для выхода): ")
-    if user_text.lower() == 'exit':
-        break
-
-    with Files(user_text, new_filename):
-        pass
+append_to_file("Пятая строка", "example.txt")
